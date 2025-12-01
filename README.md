@@ -20,11 +20,15 @@ pip install -r requirements.txt
 ## Obfuscate a Python Code
 To obfuscate a Python code, please use command:
 ```bash
+python obfuscator.py ./dataset 1 montecarlo 4
+```
+**Parameter Docs**
+```bash
 python obfuscator.py \
-    dataset=./dataset \
-    sample_id=1 \
-    policy=montecarlo \
-    max_edits=4
+    {dataset} \
+    {sample_id} \
+    {policy} \
+    {max_edits}
 ```
 - `dataset` (str): the path to the code dataset.
 - `sample_id` (int): the selected sample ID from the dataset.

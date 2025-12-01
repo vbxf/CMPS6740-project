@@ -28,7 +28,7 @@ if __name__ == '__main__':
         choices=[
             "montecarlo",
             "random",
-            "gpro",
+            "grpo",
             "td0"
         ],
         default="montecarlo",
