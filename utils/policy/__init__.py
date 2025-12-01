@@ -11,7 +11,7 @@ default_policy_pool = dict(
         max_steps=192,
         insert_bias=0.8,
     ),
-    gpro = lambda env:gpro_policy(
+    grpo = lambda env:gpro_policy(
         env,
         iterations=10,
         group_size=12,
