@@ -1,0 +1,177 @@
+Example
+a = 3
+b = 7.5
+w1 = 0.6
+w2 = 0.4
+threshold = 5
+scale = 1.2
+bias = 0.5
+temp = None
+###Code###
+sumw = w1 + w2
+weighted = (a * w1 + b * w2) / sumw
+scaled = (lambda: weighted * scale)()
+final = scaled if weighted < threshold else (lambda: scaled + bias)()
+#Result:final
+#Name:weighted_mean_adjuster #Desc:Computes weighted mean then scales it; conditionally adjusts result using lambdas and a comparison threshold bias
+How we optimize our Prompt
+We are students attending a reinforcement learning course, trying to finish our project, using RL to generate obfuscating python code. We are using GPT help us generate input datasets, our prompt is provided below, please optimize to achieve our goals better:
+
+
+Generate a python code block following this constraint:
+"
+Only use these operators {C = A+B, C=A-B, C=A*B, C=A/B, C=A%B, C=A**B, where A and B should be variable or constants), if/else operators (Only use A>B or A<B or A>= B or A<=B or A ==B or A!=B, A and B must be constants or variables, do not use and & or & not)
+Lambda functions which takes no variables as inputs
+DO NOT use any other syntax we did not define here!
+"
+The generated code must follow this format:
+"
+Block 1 variable definition:
+All variable used in later coding will be defined here with initialization (Variables can be int, float, str, None) 
+Block 2 coding block definition:
+Random code logic which should be <= 5 lines all variables used should be defined first in block 1. These logic should be valid and meaningful algorithms from typical algorithms. All operators and lines should follow the constraints we provided before.
+You should guarantee this code will be executable by python interpreter. Only output the code separate Block 1 and Block 2 with comment: "###Code###" Don't add any other comments, At the second to the last line, use comment to point to the result variable use this format "#Result:{Variable_Name}". The last line should be the name "#Name:{code_name}" and description of this code "#Desc:{code_desc}". Code name should be C-variable style name. Description should be in 16 words.
+Final optimized prompt *****
+You are helping create a dataset of small but **valid** Python programs.
+
+**Task:**
+Generate **one** Python code block that satisfies **all** of the following constraints.
+
+---
+
+### 1. Allowed syntax (everything else is forbidden)
+
+You may **only** use:
+
+1. **Variable assignment with constants or variables**
+
+   * Variables can be initialized with: `int`, `float`, `str`, or `None`
+   * Example forms (A, B, C are variables or constants):
+
+     * `C = A + B`
+     * `C = A - B`
+     * `C = A * B`
+     * `C = A / B`
+     * `C = A % B`
+     * `C = A ** B`
+   * Plain assignments like `x = 3`, `y = 4.5`, `s = "abc"`, `z = None` are allowed.
+
+2. **If/else (only in the allowed comparison form)**
+
+   * Conditions may **only** use one of:
+
+     * `A > B`, `A < B`, `A >= B`, `A <= B`, `A == B`, `A != B`
+   * `A` and `B` must each be a **single** variable or constant.
+   * **No** `and`, `or`, `not`, bitwise ops, or compound conditions.
+   * You may use if/else in expressions, e.g.:
+
+     * `C = X if A > B else Y`
+
+3. **Lambda functions with no parameters**
+
+   * Lambdas must take **no arguments**:
+
+     * `f = lambda: A + B`
+     * `C = (lambda: A * B)()`
+   * The body of the lambda may only use the allowed operators above.
+
+4. **Basic syntax required for the above**
+
+   * Assignment `=`
+   * Parentheses needed for grouping or lambda calls: `(lambda: A + B)()`
+   * Newlines to separate statements.
+
+**DO NOT** use any other Python syntax not listed above.
+That means **no**: `for`, `while`, `def`, `class`, `import`, lists, tuples, dicts, indexing (`x[0]`), attributes (`obj.x`), function definitions, function calls other than calling a lambda, `print`, `input`, context managers, etc.
+
+---
+
+### 2. Code structure and format
+
+Output **only** the Python code, with **no backticks** and **no extra comments** beyond what is specified.
+
+The code must have **two blocks**:
+
+#### Block 1 – variable definition
+
+* Start with a sequence of variable initializations.
+* All variables that appear later in Block 2 or in the final result must be defined here.
+* Variables may be `int`, `float`, `str`, or `None`.
+* You may define extra variables that help obfuscate the logic.
+* Example style:
+
+  * `a = 3`
+  * `b = 5.0`
+  * `text = "abc"`
+  * `temp = 0`
+
+#### Separator line (mandatory)
+
+A **single line** containing **exactly**:
+
+```text
+###Code###
+```
+
+#### Block 2 – coding block (algorithm logic)
+
+* Contains **3 to 5** assignment lines (no more than 5).
+* All variables used must have been defined in Block 1.
+* Must implement a **valid, meaningful algorithm** from basic algorithmic patterns, e.g.:
+
+  * computing an average or weighted sum
+  * computing a simple distance / norm
+  * computing a quadratic discriminant
+  * simple normalization or scaling of numbers
+  * a small scoring / comparison rule using `if/else`
+* To increase obfuscation:
+
+  * Prefer using **intermediate variables**.
+  * Use at least **one** lambda expression.
+  * Prefer at least **one** `if/else` expression of the form:
+
+    * `C = X if A < B else Y`
+* Every line in Block 2 must follow the operator and syntax constraints above.
+
+#### Final two lines (mandatory)
+
+After the Block 2 logic lines:
+
+1. **Second-to-last line:**
+   A comment specifying the **result variable name**, exactly in this format:
+
+   ```text
+   #Result:{Variable_Name}
+   ```
+
+   Example: `#Result:final_score`
+
+2. **Last line:**
+   Two fields in comments:
+
+   * `#Name:{code_name}` – code name in **C-style variable** form (e.g. `weighted_mean_score`)
+   * `#Desc:{code_desc}` – a description of the code, using **exactly 16 words**
+
+   Example:
+
+   ```text
+   #Name:weighted_mean_score
+   #Desc:Computes obfuscated weighted mean using redundant intermediate operations and lambdas over predefined numeric variables only
+   ```
+
+   Make sure the description is **exactly 16 words**.
+
+---
+
+### 3. Output format
+
+* **Do NOT** wrap the code in backticks.
+* **Do NOT** output any explanation.
+* **Do NOT** add any extra comments besides `#Result:...`, `#Name:...`, and `#Desc:...`.
+* The entire response must be a single Python code block matching the structure above.
+
+---
+
+Use these instructions to generate each standalone code sample.
+
+
